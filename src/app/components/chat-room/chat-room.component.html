@@ -1,0 +1,474 @@
+<div class="middle_content">
+  <!-- HEADER START -->
+  <nav class="header d-flex align-items-center justify-content-end">
+    <div class="right-admin-profile d-flex align-items-center gap-3">
+
+      <!-- language change -->
+      <div class="d-flex align-items-center">
+        <img class="" src="assets/images/svg-img/language.svg" height="30" width="30">
+      </div>
+
+      <!-- notification -->
+      <div class="position-relative">
+        <img src="assets/images/svg-img/notification.svg" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <span class="notification_circle Semibold d-flex justify-content-center align-items-center">6</span>
+      </div>
+
+      <!-- profile dropdown -->
+      <div class="dropdown position-relative">
+        <a class="d-flex align-items-center medium-text Medium gap-2" href="#" role="button" id="dropdownMenuLink"
+          data-bs-toggle="dropdown" aria-expanded="true">
+          <img class="profile_img" src="assets/images/svg-img/profile.svg">
+          {{senderId}}
+          <img src="assets/images/svg-img/arrow.svg" class="blue-filter mx-0 ms-2 arrow_transform">
+        </a>
+        <ul class="dropdown-menu profiles_dropdown" aria-labelledby="dropdownMenuLink"
+          data-popper-placement="bottom-end">
+          <div class="mb-3">
+            <li class="profile_dropdown d-flex align-items-center gap-3">
+              <img class="profile_img" src="assets/images/svg-img/user-icon.svg">
+              <div>
+                <h2 class="medium-text Medium mb-1">{{profileData.userName}}</h2>
+                <h3 class="Regular Caption mb-0">{{profileData.id}}</h3>
+              </div>
+            </li>
+
+          </div>
+          <!-- setting -->
+          <div class="d-flex flex-column gap-3 profile_list">
+            <li class="gap-2 p-2 d-flex align-items-center  small-text Medium">
+              <img class="profile_icon" src="assets/images/svg-img/settings.svg">
+              Setting
+              <div class="mb-0 lh-0 mx-0 ms-auto p-0 dark-gray"><img src="assets/images/svg-img/arrow.svg">
+              </div>
+
+            </li>
+            <!-- theme change -->
+            <li class="gap-2 p-2 d-flex align-items-center small-text Medium">
+              <img class="profile_icon" src="assets/images/svg-img/theme.svg">
+              Theme
+              <!-- THEME CHANGE -->
+              <div class="mx-0 ms-auto position-relative">
+                <button type="button" data-theme-toggle aria-label="theme"
+                  class="dark_theme cursor_pointer darktheme_switch"> </button>
+                <label class="switch ">
+                  <input type="checkbox">
+                  <span class="slider round cursor_pointer"></span>
+                </label>
+              </div>
+
+
+            </li>
+            <!-- notification -->
+            <li class="gap-2 p-2 d-flex align-items-center small-text Medium">
+              <img class="profile_icon" src="assets/images/svg-img/notification.svg">
+              Notification
+              <label class="switch mx-0 ms-auto ">
+                <input type="checkbox">
+                <span class="slider round cursor_pointer"></span>
+              </label>
+            </li>
+            <!-- logout -->
+            <li class="gap-2 p-2 d-flex align-items-center  small-text Medium danger">
+              <img class="profile_icon" src="assets/images/svg-img/logout.svg">Logout
+              <div class="mb-0 lh-0 mx-0 ms-auto p-0 dark-gray"><img src="assets/images/svg-img/arrow.svg">
+              </div>
+            </li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Main Content -->
+  <div class="main_content secondary_card_background p-4">
+    <div class="d-flex mb-4 ">
+      <h2 class="card_heading Sub-Heading Medium heading_border_bottom mb-0">Agency Room</h2>
+    </div>
+
+    <div class="chat_tabs">
+      <!-- Agency tabs list-->
+      <ul class="nav nav-pills  Agency_tabs" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-Chat-tab" data-bs-toggle="pill" data-bs-target="#pills-Chat"
+            type="button" role="tab" aria-controls="pills-Chat" aria-selected="true">Chat</button>
+        </li>
+
+
+      </ul>
+
+
+      <!-- Agency Room TABS DETAILS -->
+      <div class="tab-content h-100" id="pills-tabContent">
+
+        <!-- Chat details -->
+        <div class="tab-pane fade show active" id="pills-Chat" role="tabpanel" aria-labelledby="pills-Chat-tab"
+          tabindex="0">
+          <div class="chat-area">
+            <!-- chatlist -->
+            <div class="col-md-4 white_card_background p-0">
+              <div class="modal-dialog-scrollable">
+                <div class="chat-lists">
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+                      <div class="position-relative p-3 mb-2 ">
+                        <img src="assets/images/svg-img/search.svg" class="chat_search_icon gray">
+                        <input type="text" placeholder="Search" class="chat_user_search py-2 ps-5 px-3   w-100">
+                      </div>
+
+                      @for (room of chatRoomList; track $index) {
+                      <!-- @if (room.participants[0] && room.participants[0].email!=senderId ) { -->
+                      <div class="chat-list">
+                        @if (room.roomType=='ONE_TO_ONE') {
+                        <a (click)="getAllMessages(room.roomId,room.participants[0].email)" class="d-flex gap-3">
+
+                          <!-- <img src="assets/images/svg-img/Avatar-chat.svg" class="avtar rounded-circle"
+                            [attr.Style]="room.participants[0].isOnline?'border-color: green;border-style:  solid;':''"> -->
+                          <img src="assets/images/svg-img/Avatar-chat.svg" class="avtar rounded-circle">
+
+                          @if (room.participants[0].isOnline) {
+                          <img class="online_image" src="assets/images/png-img/dot.png" alt="">
+                          }@else {
+                          <img class="online_image" src="assets/images/png-img/offline_dot.png" alt="">
+                          }
+                          <div class="user_chat">
+                            <h4 class="medium-text Medium mb-1">{{room.participants[0].userName}}</h4>
+                            @if(room.isTyping){
+                            <!-- <h3 class="Caption small-text mb-0" style="color: green;">typing...</h3> -->
+                            <h3 class="Caption mb-0" style="color: green;">typing </h3>
+
+                            <div class="typing">
+                              <div style="padding-left: 45px;margin-top: 0px;padding-top: 0px;">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </div>
+                            }@else{
+                            <h3 class="Caption small-text mb-0">{{room.lastMessage.substring(0,40)}}</h3>
+                            }
+                          </div>
+                          <div class="ms-auto mx-0 user_chat_right d-flex flex-column align-items-end">
+                            <h3 class="Caption Regular mb-1">{{room.lastMessageTime | timeFormat}}</h3>
+                            @if (room.unSeenMessageCount!=0) {
+                            <span class="Caption Regular">{{room.unSeenMessageCount}}</span>
+
+                            }
+                          </div>
+                        </a>
+                        }@else{
+                        <a (click)="getAllMessages(room.roomId)" class="d-flex gap-3">
+                          <img src="assets/images/svg-img/Avatar-chat.svg" class="avtar rounded-circle">
+                          <div class="user_chat">
+                            <h4 class="medium-text Medium mb-1">{{room.roomName }}(Group)</h4>
+                            @if(room.isTyping){
+                            <h3 class="Caption small-text mb-0" style="color: green;">typing...</h3>
+                            }@else{
+                            <h3 class="Caption small-text mb-0">{{room.lastMessage.substring(0,50)}}</h3>
+                            }
+                          </div>
+                          <div class="ms-auto mx-0 user_chat_right d-flex flex-column align-items-end">
+                            <h3 class="Caption Regular mb-1">{{room.lastMessageTime | timeFormat}}</h3>
+                            @if (room.unSeenMessageCount!=0) {
+                            <span class="Caption Regular">{{room.unSeenMessageCount}}</span>
+                            }
+                          </div>
+                        </a>
+                        }
+                      </div>
+                      }
+                      <!-- } -->
+                    </div>
+                  </div>
+
+                </div>
+                <!-- chat-list -->
+              </div>
+            </div>
+            <!-- chatlist -->
+
+            <!-- chatbox -->
+
+            @if (roomId!=0 && roomId!=null) {
+            <div class="chatbox col-md-8 p-0">
+              <div class="modal-dialog-scrollable">
+                <div class="modal-content rounded-0">
+                  <!-- chatbox top -->
+
+                  <div class="d-flex align-items-center gap-3 py-2 px-3 border_bottom ">
+                    <span class="chat-icon"><img class="img-fluid"
+                        src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg" alt="image title"></span>
+                    <img src="assets/images/svg-img/Avatar-chat-2.svg" class="avtar rounded-circle">
+                    <div class="user_chat">
+
+                      @if (chatRoom.roomType=='GROUP') {
+                      <h4 class="medium-text Semibold mb-1">{{chatRoom.roomName}}</h4>
+                      }
+                      @else {
+                      @if (chatRoom.participants[0]) {
+
+                      <h4 class="medium-text Semibold mb-1">{{chatRoom.participants[0].userName}}</h4>
+                      }
+                      }
+
+
+                      @if (chatRoom.roomType=='ONE_TO_ONE' && chatRoom.participants[0].isOnline && !chatRoom.isTyping) {
+                      <h3 class="Caption mb-0">Online</h3>
+                      }@else if (chatRoom.roomType=='ONE_TO_ONE' && !chatRoom.participants[0].isOnline &&
+                      !chatRoom.isTyping)
+                      {
+                      <h3 class="Caption mb-0">last seen {{chatRoom.participants[0].lastSeen | lastSeen }}</h3>
+                      }@else if(
+                      chatRoom.isTyping){
+                      <!-- <h3 class="Caption mb-0" style="color: green;">typing </h3> -->
+                      <div class="typing">
+                        <h3 class="Caption mb-0" style="color: green;">typing </h3>
+                        <div style="padding-left: 45px;padding-top: 6px;">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                      }
+
+
+                      @if(chatRoom.roomType=='GROUP'){
+                      <h3 class="Caption mb-0">{{chatRoom.participants.length}} participants</h3>
+                      }
+                    </div>
+                  </div>
+                  <!-- chatbox middle -->
+
+                  <div class="modal-body chat_middle_section">
+
+                    <ul class="d-flex flex-column gap-3 p-0 chatting">
+                      <div class="modal-dialog-scrollable" #scrollContainer class="chat-container">
+
+
+                        @for (item of chatRoom.messageList|keyvalue; track $index; ) {
+                        <!-- Today -->
+                        <div class="d-flex justify-content-center chat_box">
+                          <h3 class="Primarylight_background  py-1 px-2 medium-text Regular">
+                            {{formatDateLabel(item.key)}}</h3>
+                        </div>
+                        <!-- sender -->
+
+
+                        @for( value of item.value;track $index){
+                        @if (value.senderId!=senderId) {
+                        <div class="chatbox_message">
+                          <div class="d-flex  justify-content-start">
+                            <div class="white_card_background py-2 px-3">
+
+                              <div class="dropdown">
+                                <button class="dropbtn" (mouseover)="setDropdown(value.messageId)"
+                                  (mouseleave)="clearDropdown()">
+                                  <mat-icon>action</mat-icon>
+
+                                </button>
+                                <!-- @if (isDropdownOpen(value.messageId)) { -->
+                                <div class="dropdown-content">
+                                  <button mat-menu-item (click)="reply(value.messageId)">
+                                    <mat-icon>reply</mat-icon>
+                                  </button>
+                                  <button mat-menu-item (click)="delete(value.messageId)">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                </div>
+                                <!-- } -->
+                              </div>
+                              @if (value.attachments) {
+                              @for (item of value.attachments; track $index) {
+
+                              @if((item|fileType) =='pbg' || (item|fileType) =='jpg' ){
+                              <img style="height: 300px;width: 300px;" src="{{item}}" alt="">
+                              }@else if((item|fileType) =='mp4'){
+                              <video style="height: 300px;width: 300px;" controls>
+                                <source src="{{item }}" type="video/mp4">
+
+                              </video>
+
+                              }@else if((item|fileType) =='pdf' ){
+                              <div class="pdf-container">
+                                <div class="pdf-container">
+                                  <object [data]="item | safeResourceUrl" type="application/pdf" class="pdf-viewer"
+                                    #pdfObject>
+                                    <p>Your browser does not support embedded PDF files. You can <a [href]="item"
+                                        target="_blank">download the file here</a>.</p>
+                                  </object>
+                                  @if (showDownloadButton) {
+                                  <button class="download-button" (click)="downloadPdf()">Download PDF</button>
+                                  }
+                                </div>
+
+                              </div>
+
+                              }@else if((item|fileType) =='mp3'){
+                              <audio controls style="height: 300px; width: 300px;">
+                                <source src="{{ item }}" type="audio/mp3">
+                                Your browser does not support the audio element.
+                              </audio>
+                              }
+                              <br>
+                              }
+
+                              }
+                              <pre class="code-block" class="Regular small-text mb-0"> <code>{{value.content}}  </code>
+                              </pre>
+                              <!-- <iframe style="height: 300px;width: 300px;" src="http://res.cloudinary.com/dq6jwuhda/image/upload/v1720612736/Rahul%27s%20Resume%20%281%29_cropped_2024-07-10T11:58:48.143Z.pdf" frameborder="0"></iframe> -->
+
+                              <!-- <textarea name="" id=""  class="Regular small-text mb-0">{{value.content}}</textarea> -->
+                              <h5 class="d-flex justify-content-end align-items-center mb-0 Caption Regular">
+                                {{value.localTime | timeFormat }}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                        }
+                        <br>
+
+                        @if (value.senderId==senderId) {
+                        <div class="chatbox_message d-flex justify-content-end align-items-center">
+                          <div class="primary_card_background py-2 px-3">
+                            <!-- <h4 class="Regular small-text mb-1">{{value.content}} </h4> -->
+                            <!-- <pre class="Regular small-text mb-1">{{value.content}}</pre> -->
+
+
+
+                            <div class="dropdown">
+                              <button class="dropbtn" (mouseover)="setDropdown(value.messageId)"
+                                (mouseleave)="clearDropdown()">
+                                <mat-icon>action</mat-icon>
+
+                              </button>
+                              <!-- @if (isDropdownOpen(value.messageId)) { -->
+                              <div class="dropdown-content">
+                                <button mat-menu-item (click)="reply(value.messageId)">
+                                  <mat-icon>reply</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="delete(value.messageId)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                              </div>
+                              <!-- } -->
+                            </div>
+
+                            @if (value.attachments) {
+                            @for (item of value.attachments; track $index) {
+                            @if((item|fileType) =='pbg' || (item|fileType) =='jpg' ){
+                            <img style="height: 300px;width: 300px;" src="{{item}}" alt="">
+                            }@else if((item|fileType) =='mp4'){
+                            <video style="height: 300px;width: 300px;" controls>
+                              <source
+                                src="https://res.cloudinary.com/dq6jwuhda/video/upload/v1720692200/istockphoto-1486217059-640_adpp_is_2024-07-11T10:03:15.085Z.mp4"
+                                type="video/mp4">
+
+                            </video>
+
+                            }@else if((item|fileType) =='pdf' ){
+                            <div class="pdf-container">
+                              <div class="pdf-container">
+                                <object [data]="item | safeResourceUrl" type="application/pdf" class="pdf-viewer"
+                                  #pdfObject>
+                                  <p>Your browser does not support embedded PDF files. You can <a [href]="item"
+                                      target="_blank">download the file here</a>.</p>
+                                </object>
+                                @if (showDownloadButton) {
+                                <button class="download-button" (click)="downloadPdf()">Download PDF</button>
+                                }
+                              </div>
+
+                            </div>
+
+                            }@else if((item|fileType) =='mp3'){
+                            <audio #audioPlayer controls>
+                              <source [src]="item" type="audio/mp3">
+                              Your browser does not support the audio element.
+                            </audio>
+
+                            <button (click)="downloadAudio(item)">Save</button>
+                            }
+                            <br>
+                            }
+
+                            }
+                            <pre class="code-block " style="color: aliceblue;" class="Regular small-text mb-1"> <code>{{value.content}}  </code>
+                            </pre>
+
+                            <!-- <textarea name="" id=""  class="Regular small-text mb-1">{{value.content}}</textarea> -->
+                            <h4 class="d-flex justify-content-end align-items-center mb-0 Caption Regular">
+                              {{value.localTime | timeFormat }}
+                              @if (value.isSeen) {
+                              <img style="height: 10px;" src="assets/images/svg-img/seenBlueCheck.svg"
+                                class="mx-0 ms-1">
+                              }
+                              @if (!value.isRecieved && !value.isSeen) {
+                              <img src="assets/images/svg-img/singleTickCheck.svg" class="gray mx-0 ms-1">
+                              }
+                              @if(value.isRecieved && !value.isSeen){
+                              <img src="assets/images/svg-img/dblCheck.svg" class="gray mx-0 ms-1">
+                              }
+
+                            </h4>
+                          </div>
+                        </div>
+                        }
+
+                        }
+
+
+                        }
+
+
+                      </div>
+                    </ul>
+
+                  </div>
+                  <!-- chatbox bottom send message -->
+
+                  <!-- send message -->
+                  <div class="send-box ">
+                    <div class="chat_bottom">
+                      <textarea type="text" [(ngModel)]="message" (keyup.enter)="sendMessage(chatRoom.roomId)"
+                        (ngModelChange)="sendTypingStatus()" (input)="adjustTextareaHeight($event)" #messageTextarea
+                        class="input_text border-0 py-2 p-3 w-100 small-text Medium rounded-1" placeholder="Message">
+                      </textarea>
+                      <!-- app.component.html -->
+
+                      <button type="button" class="send_btn medium-text  Medium py-1  p-3 position-relative"
+                        (click)="sendMessage(chatRoom.roomId)">Send</button>
+                      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit(chatRoom.roomId)">
+                        <input type="file" multiple (change)="onChangeImg($event)" />
+                        <!-- @if (imageUrl) {
+
+                        <img [src]="imageUrl" alt="Uploaded Image" />
+                        } -->
+                        <button type="submit">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+            @else {
+            <div class="chatbox col-md-8 p-0">
+              <div class="modal-dialog-scrollable">
+                <div class="modal-content rounded-0">
+                  <!-- <h1 style="margin-left: 150px;margin-top: 200px;">Start chatting</h1> -->
+                  <img src="assets/images/gif-img/Conversation.gif" alt=""
+                    style="height: 600px;width:700px;margin-left: 100px;">
+                </div>
+              </div>
+            </div>
+            }
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
